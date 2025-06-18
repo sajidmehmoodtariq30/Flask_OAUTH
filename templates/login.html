@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Flask Auth App{% endblock %}
+
+{% block header_title %}Welcome Back{% endblock %}
+{% block header_subtitle %}Sign in to your account{% endblock %}
+
+{% block content %}
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div class="form-group">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+        {% for error in form.username.errors %}
+            <div class="form-error">{{ error }}</div>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        {% for error in form.password.errors %}
+            <div class="form-error">{{ error }}</div>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary btn-block") }}
+    </div>
+</form>
+
+<div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+    <p style="color: var(--gray-600); margin-bottom: 1rem;">Don't have an account?</p>
+    <a href="{{ url_for('signup') }}" class="btn btn-outline">
+        Create Account
+    </a>
+</div>
+
+<div style="text-align: center; margin-top: 1rem;">
+    <a href="{{ url_for('index') }}" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem;">
+        ← Back to Home
+    </a>
+</div>
+{% endblock %}

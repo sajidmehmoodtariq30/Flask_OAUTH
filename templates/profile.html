@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - {{ user.get_full_name() }}{% endblock %}
+
+{% block header_title %}Your Profile{% endblock %}
+{% block header_subtitle %}Manage your account information{% endblock %}
+
+{% block content %}
+<div class="user-card">
+    <div class="user-avatar">
+        {{ user.get_initials() }}
+    </div>
+    <div class="user-info">
+        <h3>{{ user.get_full_name() }}</h3>
+    </div>
+    <div class="user-details">
+        <div class="user-detail">
+            <div class="user-detail-icon">👤</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Username</div>
+                <div class="user-detail-value">{{ user.username }}</div>
+            </div>
+        </div>
+        <div class="user-detail">
+            <div class="user-detail-icon">📧</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Email</div>
+                <div class="user-detail-value">{{ user.email }}</div>
+            </div>
+        </div>
+        {% if user.first_name %}
+        <div class="user-detail">
+            <div class="user-detail-icon">📝</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">First Name</div>
+                <div class="user-detail-value">{{ user.first_name }}</div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.last_name %}
+        <div class="user-detail">
+            <div class="user-detail-icon">📝</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Last Name</div>
+                <div class="user-detail-value">{{ user.last_name }}</div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.last_login %}
+        <div class="user-detail">
+            <div class="user-detail-icon">🕒</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Last Login</div>
+                <div class="user-detail-value">{{ user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="user-detail">
+            <div class="user-detail-icon">📅</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Member Since</div>
+                <div class="user-detail-value">{{ user.created_at.strftime('%B %d, %Y') }}</div>
+            </div>
+        </div>
+        <div class="user-detail">
+            <div class="user-detail-icon">✅</div>
+            <div class="user-detail-content">
+                <div class="user-detail-label">Account Status</div>
+                <div class="user-detail-value">{{ 'Active' if user.is_active else 'Inactive' }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="actions">
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">
+        ✏️ Edit Profile
+    </a>
+    <a href="{{ url_for('index') }}" class="btn btn-info">
+        🏠 Dashboard
+    </a>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">
+        🚪 Logout
+    </a>
+</div>
+
+<div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+    <p style="color: var(--gray-500); font-size: 0.875rem;">
+        Account ID: #{{ user.id }}
+    </p>
+</div>
+{% endblock %}
+            margin: 0 15px;
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .logout-link {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+            color: white !important;
+        }
+        .logout-link:hover {
+            background-color: #c82333 !important;
+            border-color: #c82333 !important;
+        }
+        .alert {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b6d4e0;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">← Home</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+        
+        <h2>User Profile</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="profile-info">
+            <div class="profile-field">
+                <label>Username:</label>
+                <span>{{ user.username }}</span>
+            </div>
+            <div class="profile-field">
+                <label>Email:</label>
+                <span>{{ user.email }}</span>
+            </div>
+            <div class="profile-field">
+                <label>User ID:</label>
+                <span>{{ user.id }}</span>
+            </div>
+        </div>
+        
+        <div style="text-align: center; color: #666; font-style: italic;">
+            Welcome to your profile page! More features coming soon.
+        </div>
+    </div>
+</body>
+</html>

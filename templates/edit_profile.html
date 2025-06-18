@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - {{ user.get_full_name() }}{% endblock %}
+
+{% block header_title %}Edit Profile{% endblock %}
+{% block header_subtitle %}Update your account information{% endblock %}
+
+{% block content %}
+<div class="user-card" style="margin-bottom: 2rem;">
+    <div class="user-avatar">
+        {{ user.get_initials() }}
+    </div>
+    <div class="user-info">
+        <h3>Editing: {{ user.get_full_name() }}</h3>
+    </div>
+</div>
+
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+            {{ form.first_name.label(class="form-label") }}
+            {{ form.first_name(class="form-control") }}
+            {% for error in form.first_name.errors %}
+                <div class="form-error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.last_name.label(class="form-label") }}
+            {{ form.last_name(class="form-control") }}
+            {% for error in form.last_name.errors %}
+                <div class="form-error">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="form-group">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+        {% for error in form.email.errors %}
+            <div class="form-error">{{ error }}</div>
+        {% endfor %}
+    </div>
+    
+    <div class="actions">
+        {{ form.submit(class="btn btn-success") }}
+        <a href="{{ url_for('profile') }}" class="btn btn-outline">
+            Cancel
+        </a>
+    </div>
+</form>
+
+<div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+    <p style="color: var(--gray-500); font-size: 0.875rem;">
+        Note: Username cannot be changed after account creation
+    </p>
+    <p style="color: var(--gray-500); font-size: 0.875rem;">
+        Current Username: <strong>{{ user.username }}</strong>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flask Auth App{% endblock %}
+
+{% block header_title %}Welcome to Flask Auth App{% endblock %}
+{% block header_subtitle %}Modern, secure authentication system{% endblock %}
+
+{% block content %}
+{% if user %}
+    <div class="user-card">
+        <div class="user-avatar">
+            {{ user.get_initials() }}
+        </div>
+        <div class="user-info">
+            <h3>Welcome back, {{ user.get_full_name() }}! 👋</h3>
+        </div>
+        <div class="user-details">
+            <div class="user-detail">
+                <div class="user-detail-icon">👤</div>
+                <div class="user-detail-content">
+                    <div class="user-detail-label">Username</div>
+                    <div class="user-detail-value">{{ user.username }}</div>
+                </div>
+            </div>
+            <div class="user-detail">
+                <div class="user-detail-icon">📧</div>
+                <div class="user-detail-content">
+                    <div class="user-detail-label">Email</div>
+                    <div class="user-detail-value">{{ user.email }}</div>
+                </div>
+            </div>
+            {% if user.last_login %}
+            <div class="user-detail">
+                <div class="user-detail-icon">🕒</div>
+                <div class="user-detail-content">
+                    <div class="user-detail-label">Last Login</div>
+                    <div class="user-detail-value">{{ user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="user-detail">
+                <div class="user-detail-icon">📅</div>
+                <div class="user-detail-content">
+                    <div class="user-detail-label">Member Since</div>
+                    <div class="user-detail-value">{{ user.created_at.strftime('%B %d, %Y') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('profile') }}" class="btn btn-info">
+            👤 View Profile
+        </a>
+        <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">
+            ✏️ Edit Profile
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">
+            🚪 Logout
+        </a>
+    </div>
+{% else %}
+    <div class="welcome-section">
+        <h2>Get Started Today</h2>
+        <p>
+            Welcome to our modern authentication system! Create an account to access 
+            your personalized dashboard, manage your profile, and enjoy a secure experience.
+        </p>
+    </div>
+    
+    <div class="actions">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">
+            🔑 Login
+        </a>
+        <a href="{{ url_for('signup') }}" class="btn btn-success">
+            📝 Sign Up
+        </a>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center; color: var(--gray-500);">
+        <h3 style="margin-bottom: 1rem; color: var(--gray-700);">Features</h3>
+        <div style="display: grid; gap: 0.75rem; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: var(--success-color);">✓</span>
+                <span>Secure password hashing with bcrypt</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: var(--success-color);">✓</span>
+                <span>Modern, responsive design</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: var(--success-color);">✓</span>
+                <span>Profile management system</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: var(--success-color);">✓</span>
+                <span>Session-based authentication</span>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
